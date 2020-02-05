@@ -2,10 +2,12 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
-    'username' => 'root',
-    'password' => '',
+    'dsn' => 'pgsql:host=localhost;port=5432;dbname=dust',
+    'username' => 'postgres',
+    'password' => 'nysha2161',
     'charset' => 'utf8',
+
+    // 'autoConnect' => false, // не устанавливать соединение при старте приложения - для оптимизации
 
     // Schema cache options (for production environment)
     //'enableSchemaCache' => true,
