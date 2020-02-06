@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Articles;
 use Yii;
 use yii\web\Controller;
 
@@ -13,6 +14,8 @@ use yii\web\Controller;
 
 class SiteController extends Controller
 {
+    const BBB_AA = 1;
+
     /**
      * {@inheritdoc}
      */
@@ -34,4 +37,26 @@ class SiteController extends Controller
     {
         return $this->render('index');
     }
+
+    public function actionView($url)
+    {
+        if(!$article = Articles::find()->byUrl($url)->one()){
+            throw new \Exception('нет такой статьи');
+        }
+
+        $a = '100';
+        $b = intval($a);
+
+        $c = (int)$a;
+
+
+
+
+
+
+
+
+        return $this->render('view', ['article' => $article]);
+    }
+
 }

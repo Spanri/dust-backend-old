@@ -7,6 +7,7 @@
 
 namespace app\commands;
 
+use app\models\Articles;
 use yii\console\Controller;
 use yii\console\ExitCode;
 
@@ -30,5 +31,16 @@ class HelloController extends Controller
         echo $message . "\n";
 
         return ExitCode::OK;
+    }
+
+    public function actionArticle()
+    {
+        $article = new Articles(['name' => 'asdas', 'content' => 'asdas', 'url' => 'yyy-123']);
+        if(!$article->save()){
+            echo 'error';
+            exit;
+        }
+
+        echo 'ok';
     }
 }
