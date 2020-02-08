@@ -4,7 +4,7 @@ return [
     'class' => 'yii\db\Connection',
     'dsn' => 'pgsql:host=localhost;port=5432;dbname=dust',
     'username' => 'postgres',
-    'password' => 'postgres',
+    'password' => 'nysha2161',
     'charset' => 'utf8',
 
     // 'autoConnect' => false, // не устанавливать соединение при старте приложения - для оптимизации

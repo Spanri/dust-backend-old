@@ -4,6 +4,12 @@
 
 1) Надо настроить apache.
 
+a) с помощью моего скрипта
+```bash
+sudo sh ./scripts/setVH.sh dust.games
+```
+
+б) без моего скрипта
 * настроить в `sites-available`
 * не забыть про `en2site`
 * настроить хост в файле `hosts`
