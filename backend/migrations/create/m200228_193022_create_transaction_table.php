@@ -1,6 +1,7 @@
 <?php
 
 use yii\db\Migration;
+use app\traits\schemaTypesTrait;
 
 /**
  * Handles the creation of table `transaction`.
@@ -8,13 +9,18 @@ use yii\db\Migration;
 class m200228_193022_create_transaction_table extends Migration
 {
     /**
+     * @var schemaTypesTrait Специфические типы данных
+     */
+    use schemaTypesTrait;
+
+    /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
         $this->createTable('transaction', [
-            'id' => $this->primaryKey(),
-            'user_id' => $this->integer()->notNull(),
+            'id' => $this->uuidPk(),
+            'user_id' => $this->uuid()->notNull(),
 
             'type' => $this->tinyInteger()->notNull(),
             'status' => $this->tinyInteger()->notNull(),
@@ -31,7 +37,7 @@ class m200228_193022_create_transaction_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('fk-transaction-user_id-user-id', 'user');
+        $this->dropForeignKey('fk-transaction-user_id-user-id', 'transaction');
         $this->dropTable('transaction');
     }
 }

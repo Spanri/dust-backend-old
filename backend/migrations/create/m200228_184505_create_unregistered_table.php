@@ -1,6 +1,7 @@
 <?php
 
 use yii\db\Migration;
+use app\traits\schemaTypesTrait;
 
 /**
  * Handles the creation of table `unregistered`.
@@ -8,18 +9,24 @@ use yii\db\Migration;
 class m200228_184505_create_unregistered_table extends Migration
 {
     /**
+     * @var schemaTypesTrait Специфические типы данных
+     */
+    use schemaTypesTrait;
+
+    /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
         $this->createTable('unregistered', [
-            'id' => $this->primaryKey(),
-            'account_type_id' => $this->integer()->notNull(),
+            'id' => $this->uuidPk(),
+            'type' => $this->string(32)->notNull(),
+            'account_id' => $this->string(32)->notNull(),
 
             'dust_coin_num' => $this->integer()->defaultValue(0),
         ]);
 
-        $this->addForeignKey('fk-unregistered-account_type_id-account_type-id', 'unregistered', 'account_type_id', 'account_type', 'id', 'CASCADE');
+        $this->addForeignKey('fk-unregistered-account_type_id-account_type-id', 'unregistered', ['type', 'account_id'], 'account_type', ['type', 'account_id'], 'CASCADE');
     }
 
     /**
@@ -27,7 +34,7 @@ class m200228_184505_create_unregistered_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('fk-unregistered-account_type_id-account_type-id', 'account_type');
+        $this->dropForeignKey('fk-unregistered-account_type_id-account_type-id', 'unregistered');
         $this->dropTable('unregistered');
     }
 }

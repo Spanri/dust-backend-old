@@ -1,6 +1,7 @@
 <?php
 
 use yii\db\Migration;
+use app\traits\schemaTypesTrait;
 
 /**
  * Handles the creation of table `{{%user_account_type}}`.
@@ -12,14 +13,20 @@ use yii\db\Migration;
 class m200229_085123_create_junction_table_for_user_and_account_type_tables extends Migration
 {
     /**
+     * @var schemaTypesTrait Специфические типы данных
+     */
+    use schemaTypesTrait;
+
+    /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
         $this->createTable('{{%user_account_type}}', [
-            'user_id' => $this->integer(),
-            'account_type_id' => $this->integer(),
-            'PRIMARY KEY(user_id, account_type_id)',
+            'user_id' => $this->uuid(),
+            'type' => $this->string(32)->notNull(),
+            'account_id' => $this->string(32)->notNull(),
+            'PRIMARY KEY(user_id, type, account_id)',
         ]);
 
         // creates index for column `user_id`
@@ -41,18 +48,26 @@ class m200229_085123_create_junction_table_for_user_and_account_type_tables exte
 
         // creates index for column `account_type_id`
         $this->createIndex(
-            '{{%idx-user_account_type-account_type_id}}',
-            '{{%user_account_type}}',
-            'account_type_id'
+            '{{%idx-user_account_type-type}}',
+            '{{%account_type}}',
+            'type'
+        );
+
+        // creates index for column `account_type_id`
+        $this->createIndex(
+            '{{%idx-user_account_type-account_id}}',
+            '{{%account_type}}',
+            'account_id'
         );
 
         // add foreign key for table `{{%account_type}}`
         $this->addForeignKey(
-            '{{%fk-user_account_type-account_type_id}}',
-            '{{%user_account_type}}',
-            'account_type_id',
-            '{{%account_type}}',
-            'id',
+            'fk-user_account_type-account_type_id',
+            'user_account_type',
+            ['type', 'account_id'],
+            'account_type',
+            ['type', 'account_id'],
+            'CASCADE',
             'CASCADE'
         );
     }
@@ -82,7 +97,13 @@ class m200229_085123_create_junction_table_for_user_and_account_type_tables exte
 
         // drops index for column `account_type_id`
         $this->dropIndex(
-            '{{%idx-user_account_type-account_type_id}}',
+            '{{%idx-user_account_type-type}}',
+            '{{%user_account_type}}'
+        );
+
+        // drops index for column `account_type_id`
+        $this->dropIndex(
+            '{{%idx-user_account_type-account_id}}',
             '{{%user_account_type}}'
         );
 

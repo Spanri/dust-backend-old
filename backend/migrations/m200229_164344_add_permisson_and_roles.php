@@ -14,41 +14,25 @@ class m200229_164344_add_permisson_and_roles extends Migration
     {
         $auth = Yii::$app->authManager;
 
-        $guest = $auth->createRole("Guest");
-        $guest->description = 'Гость';
-        $auth->add($guest);
-
-        $user = $auth->createRole("User");
-        $user->description = 'Пользователь';
-        $auth->add($user);
+        $admin = $auth->createRole("Admin");
+        $admin->description = 'Администратор';
+        $auth->add($admin);
 
         $moderator = $auth->createRole("Moderator");
         $moderator->description = 'Модератор';
         $auth->add($moderator);
 
-        $admin = $auth->createRole("Admin");
-        $admin->description = 'Администратор';
-        $auth->add($admin);
+        $bot = $auth->createRole("Bot");
+        $bot->description = 'Бот';
+        $auth->add($bot);
 
-        $baseAccess = $auth->createPermission('base_access');
-        $baseAccess->description = 'Базовый доступ';
+        $user = $auth->createRole("User");
+        $user->description = 'Пользователь';
+        $auth->add($user);
 
-        // $canCreate = $auth->createPermission(UserPermission::CAN_CREATE);
-        // $canCreate->description = 'Создание элемента';
-
-        // $canViewCollection = $auth->createPermission(UserPermission::CAN_VIEW_COLLECTION);
-        // $canViewCollection->description = 'Просмотр коллекции';
-
-        // $photoReport = $auth->createPermission(UserPermission::PHOTOREPORT);
-        // $photoReport->description = 'Фотоотчет';
-
-        // $auth->add($canCreate);
-        // $auth->add($canViewCollection);
-        $auth->add($baseAccess);
-        // $auth->add($photoReport);
-
-        // $auth->addChild($user, $canCreate);
-        // $auth->addChild($user, $canViewCollection);
+        $guest = $auth->createRole("Guest");
+        $guest->description = 'Гость';
+        $auth->add($guest);
 
         $auth->addChild($admin, $moderator);
         $auth->addChild($moderator, $user);
@@ -65,16 +49,8 @@ class m200229_164344_add_permisson_and_roles extends Migration
         $admin = $auth->createRole("Admin");
         $moderator = $auth->createRole("Moderator");
         $user = $auth->createRole("User");
+        $bot = $auth->createRole("Bot");
         $guest = $auth->createRole("Guest");
-
-        // $canCreate = $auth->createPermission(UserPermission::CAN_CREATE);
-        // $canViewCollection = $auth->createPermission(UserPermission::CAN_VIEW_COLLECTION);
-        $baseAccess = $auth->createPermission('base_access');
-        // $photoReport = $auth->createPermission(UserPermission::PHOTOREPORT);
-
-        // $auth->removeChild($admin, $user);
-        // $auth->removeChild($user, $canViewCollection);
-        // $auth->removeChild($user, $canCreate);
 
         $auth->removeChild($admin, $moderator);
         $auth->removeChild($moderator, $user);
@@ -82,13 +58,9 @@ class m200229_164344_add_permisson_and_roles extends Migration
 
         $auth->remove($admin);
         $auth->remove($moderator);
+        $auth->remove($bot);
         $auth->remove($user);
         $auth->remove($guest);
-
-        // $auth->remove($canCreate);
-        // $auth->remove($canViewCollection);
-        // $auth->remove($baseAccess);
-        // $auth->remove($photoReport);
     }
 
 }
