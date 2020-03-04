@@ -49,13 +49,6 @@ class SiteController extends Controller
 
         $c = (int)$a;
 
-
-
-
-
-
-
-
         return $this->render('view', ['article' => $article]);
     }
 

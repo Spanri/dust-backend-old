@@ -23,7 +23,7 @@ sudo a2ensite example.com.conf
 ```bash
 sudo systemctl restart apache2
 ```
-* возможно, убрать права у папок (можно попробовать 755 вместо 777)
+* возможно, убрать права у папок
 ```
-sudo chmod 777 <путь_папки> 
+sudo chmod -R 1777 <путь_папки> 
 ```

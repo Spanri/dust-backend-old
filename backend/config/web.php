@@ -11,6 +11,11 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+    'modules' => [
+        'core' => [
+            'class' => 'app\modules\core\Model',
+        ],
+    ],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -51,11 +56,11 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'site/view/<url:[\w-]+>' => 'site/view',
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'articles'],
+                '' => 'modules/core/index',
+                // 'site/view/<url:[\w-]+>' => 'site/view',
+                // ['class' => 'yii\rest\UrlRule', 'controller' => 'articles'],
             ],
         ],
-        
     ],
     'params' => $params,
 ];
