@@ -20,20 +20,17 @@ class m200228_182241_create_user_table extends Migration
     {
         $this->createTable('user', [
             'id' => $this->uuidPk(),
-            'billing_id' => $this->uuid()->notNull(),
-            'user_session_id' => $this->uuid()->notNull(),
-            'referral_program_id' => $this->uuid()->notNull(),
 
             'email' => $this->string(255)->notNull()->unique(),
             'username' => $this->string(255)->notNull()->unique(),
             'password_hash' => $this->string(255)->notNull(),
-            'password_reset_token' => $this->string(255)->notNull()->unique(),
-            'email_confirm_token' => $this->string(255)->notNull(),
-
+            'password_reset_token' => $this->string(255)->unique(),
+            'email_confirm_token' => $this->string(255),
+            'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'avatar' => $this->string(255)->notNull(),
 
-            'created_at' => $this->integer()->notNull(),
-            'updated_at' => $this->bigInteger()->notNull()
+            'created_at' => $this->bigInteger(),
+            'updated_at' => $this->bigInteger()
         ]);
 
         // rbac не совсем правильно генерирует таблицы, меняем тип user_id

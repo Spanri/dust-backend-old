@@ -23,7 +23,7 @@ class m200228_183728_create_referral_program_table extends Migration
             'user_id' => $this->uuid()->notNull(),
             'upline_user_id' => $this->uuid(),
 
-            'level' => $this->tinyInteger()->notNull(),
+            'level' => $this->tinyInteger()->notNull()->defaultValue(0),
             'upline_user_level' => $this->tinyInteger(),
 
             'updated_at' => $this->bigInteger(),

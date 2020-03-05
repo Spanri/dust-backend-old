@@ -19,14 +19,14 @@ class m200228_184151_create_account_type_table extends Migration
     public function safeUp()
     {
         $this->createTable('account_type', [
-            'type' => $this->string(32)->notNull(),
+            'type' => $this->integer()->notNull(),
             'account_id' => $this->string(32)->notNull(),
 
             'username' => $this->string(32),
         ]);
 
         $this->addPrimaryKey('account_type_pk', 'account_type', ['type', 'account_id']);
-        $this->createIndex('idx-account_type-type', 'account_type', 'type', true);
+        $this->createIndex('idx-account_type-type-account_id', 'account_type', ['type', 'account_id'], true);
     }
 
     /**
@@ -34,7 +34,7 @@ class m200228_184151_create_account_type_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropIndex('idx-account_type-type', 'account_type');
+        $this->dropIndex('idx-account_type-type-account_id', 'account_type');
         $this->dropTable('account_type');
     }
 }

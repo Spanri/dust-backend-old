@@ -11,9 +11,42 @@ class m200304_223723_migrate_data_from_old_database extends Migration
      * {@inheritdoc}
      */
     public function safeUp() {
-        $oldDb = \Yii::$app->getDb('oldDb');
-        $transportUsers = $oldDb->createCommand('SELECT * FROM {{%user}}')->queryAll();
-        print_r($transportUsers);
+        $newDb = Yii::$app->db;
+        $oldDb = Yii::$app->oldDb;
+
+        $users = $oldDb->createCommand('SELECT * FROM {{%user}}')->queryAll();
+
+//        // допустим, статус 10 - неподтвержденный email, но зареганный юзер, 20 - подтвержденный email
+//        $newUsers = array_map(
+//            function ($user) { return array($user['id'], $user['name'], $user['name'], '12345', $user['avatar'], 20, time(), time()); },
+//            $users);
+//        $newDb->createCommand()->batchInsert('user', ['id', 'email', 'username', 'password_hash', 'avatar', 'status', 'created_at', 'updated_at'], $newUsers)->execute();
+
+        // допустим, тип 1 - это стим
+        $newAccounts = array_map(
+            function ($user) { return array(1, $user['steamId'], $user['name']); },
+            $users);
+        $newDb->createCommand()->batchInsert('account_type', ['type', 'account_id', 'username'], $newAccounts)->execute();
+
+        $newUnregistered = array_map(
+            function ($user) { return array(1, $user['steamId'], $user['dc']); },
+            $users);
+        $newDb->createCommand()->batchInsert('unregistered', ['type', 'account_id', 'dust_coin_num'], $newUnregistered)->execute();
+
+//        $newUsersAccounts = array_map(
+//            function ($user) { return array($user['id'], 1, $user['steamId']); },
+//            $users);
+//        $newDb->createCommand()->batchInsert('user_account_type', ['user_id', 'type', 'account_id'], $newUsersAccounts)->execute();
+//
+//        $newBillings = array_map(
+//            function ($user) { return array($user['id'], $user['dc']); },
+//            $users);
+//        $newDb->createCommand()->batchInsert('billing', ['user_id', 'dust_token_num'], $newBillings)->execute();
+//
+//        $newReferralProgram = array_map(
+//            function ($user) { return array($user['id'], time()); },
+//            $users);
+//        $newDb->createCommand()->batchInsert('referral_program', ['user_id', 'updated_at'], $newReferralProgram)->execute();
     }
 
     /**
@@ -23,7 +56,7 @@ class m200304_223723_migrate_data_from_old_database extends Migration
     {
         echo "m200304_223723_migrate_data_from_old_database cannot be reverted.\n";
 
-        return false;
+        return true;
     }
 
     /*

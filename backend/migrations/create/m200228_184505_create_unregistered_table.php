@@ -20,10 +20,10 @@ class m200228_184505_create_unregistered_table extends Migration
     {
         $this->createTable('unregistered', [
             'id' => $this->uuidPk(),
-            'type' => $this->string(32)->notNull(),
+            'type' => $this->integer()->notNull(),
             'account_id' => $this->string(32)->notNull(),
 
-            'dust_coin_num' => $this->integer()->defaultValue(0),
+            'dust_coin_num' => $this->decimal(15,3)->notNull()->defaultValue(0),
         ]);
 
         $this->addForeignKey('fk-unregistered-account_type_id-account_type-id', 'unregistered', ['type', 'account_id'], 'account_type', ['type', 'account_id'], 'CASCADE');
