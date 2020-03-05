@@ -58,7 +58,10 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                '' => 'modules/core/index',
+//                '' => 'modules/core/index',
+//                'account-types/<type:[\w-]+>/account-id/<account_id:[\w-]+>' => 'arra-bot/coins',
+//                'account-types/<type:[\w-]+>/account-id/<account_id:[\w-]+>/dust-tokens' => 'arra-bot/coins',
+//                'account-types/<type:[\w-]+>/account-id/<account_id:[\w-]+>/ruble-tokens' => 'arra-bot/coins',
                 // 'site/view/<url:[\w-]+>' => 'site/view',
                 // ['class' => 'yii\rest\UrlRule', 'controller' => 'articles'],
             ],

@@ -37,6 +37,9 @@ class m200304_223723_migrate_data_from_old_database extends Migration
             $users);
         $newDb->createCommand()->batchInsert('unregistered', ['type', 'account_id', 'dust_coin_num'], $newUnregistered)->execute();
 
+        // незареганные записи с нулем коинов не нужны - удаляем их
+        $newDb->createCommand()->delete('unregistered', ['dust_coin_num' => 0.000])->execute();
+
 //        $newUsersAccounts = array_map(
 //            function ($user) { return array($user['id'], 1, $user['steamId']); },
 //            $users);
