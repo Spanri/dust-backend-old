@@ -22,14 +22,18 @@ class m200304_223723_migrate_data_from_old_database extends Migration
 //            $users);
 //        $newDb->createCommand()->batchInsert('user', ['id', 'email', 'username', 'password_hash', 'avatar', 'status', 'created_at', 'updated_at'], $newUsers)->execute();
 
-        // допустим, тип 1 - это стим
+        // допустим, тип 1 - это стим, 2 - твич
         $newAccounts = array_map(
-            function ($user) { return array(1, $user['steamId'], $user['name']); },
+            function ($user) {
+                if(!is_null($user['twitch'])) { return array(2, $user['twitch'], $user['dc']); }
+                else { return array(1, $user['steamId'], $user['dc']); } },
             $users);
         $newDb->createCommand()->batchInsert('account_type', ['type', 'account_id', 'username'], $newAccounts)->execute();
 
         $newUnregistered = array_map(
-            function ($user) { return array(1, $user['steamId'], $user['dc']); },
+            function ($user) {
+                if(!is_null($user['twitch'])) { return array(2, $user['twitch'], $user['dc']); }
+                else { return array(1, $user['steamId'], $user['dc']); } },
             $users);
         $newDb->createCommand()->batchInsert('unregistered', ['type', 'account_id', 'dust_coin_num'], $newUnregistered)->execute();
 

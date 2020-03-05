@@ -5,23 +5,25 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "billing".
+ * This is the model class for table "transaction".
  *
  * @property string $id
  * @property string $user_id
- * @property float $ruble_token_num
- * @property float $dust_token_num
+ * @property int $type
+ * @property int $status
+ * @property int|null $currency_num
+ * @property int|null $created_at
  *
  * @property User $user
  */
-class Billing extends \yii\db\ActiveRecord
+class Transaction extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'billing';
+        return 'transaction';
     }
 
     /**
@@ -30,9 +32,10 @@ class Billing extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'user_id'], 'required'],
+            [['id', 'user_id', 'type', 'status'], 'required'],
             [['id', 'user_id'], 'string'],
-            [['ruble_token_num', 'dust_token_num'], 'number'],
+            [['type', 'status', 'currency_num', 'created_at'], 'default', 'value' => null],
+            [['type', 'status', 'currency_num', 'created_at'], 'integer'],
             [['id'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -46,8 +49,10 @@ class Billing extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'User ID',
-            'ruble_token_num' => 'Ruble Token Num',
-            'dust_token_num' => 'Dust Token Num',
+            'type' => 'Type',
+            'status' => 'Status',
+            'currency_num' => 'Currency Num',
+            'created_at' => 'Created At',
         ];
     }
 
