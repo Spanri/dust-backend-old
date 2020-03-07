@@ -16,6 +16,18 @@ class SiteController extends Controller
 {
     const BBB_AA = 1;
 
+    public function beforeAction($action)
+    {
+//        if ($action->id == 'index') {
+//            $this->enableCsrfValidation = false;
+//        }
+
+        $this->enableCsrfValidation = false;
+
+        return parent::beforeAction($action);
+        return false;
+    }
+
     /**
      * {@inheritdoc}
      */

@@ -5,21 +5,36 @@ $db = require __DIR__ . '/db.php';
 $oldDb = require __DIR__ . '/oldDb.php';
 
 $config = [
-    'id' => 'basic',
+    'id' => 'app-api',
+    'language' => 'ru',
+    'sourceLanguage' => 'ru',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'bot',
+        'core',
+        'log',
+        [
+            'class' => 'yii\filters\ContentNegotiator',
+            'formats' => [
+                'application/json' => \yii\web\Response::FORMAT_JSON,
+            ]
+        ]
+    ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
     ],
     'modules' => [
         'core' => [
-            'class' => 'app\modules\core\Model',
+            'class' => 'app\modules\core\Module',
+        ],
+        'bot' => [
+            'class' => 'app\modules\bot\Module',
         ],
     ],
     'components' => [
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
+            'enableCsrfValidation' => false,
             'cookieValidationKey' => '123',
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
@@ -30,7 +45,7 @@ $config = [
         ],
         'user' => [
             'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
+            'enableAutoLogin' => false,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -53,17 +68,18 @@ $config = [
         ],
         'db' => $db,
         'oldDb' => $oldDb,
-        
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-//                '' => 'modules/core/index',
-//                'account-types/<type:[\w-]+>/account-id/<account_id:[\w-]+>' => 'arra-bot/coins',
-//                'account-types/<type:[\w-]+>/account-id/<account_id:[\w-]+>/dust-tokens' => 'arra-bot/coins',
-//                'account-types/<type:[\w-]+>/account-id/<account_id:[\w-]+>/ruble-tokens' => 'arra-bot/coins',
-                // 'site/view/<url:[\w-]+>' => 'site/view',
-                // ['class' => 'yii\rest\UrlRule', 'controller' => 'articles'],
+//                'class' => \yii\rest\UrlRule::class,
+                '' => 'core/default/index',
+
+//                'pattern' => '<controller:[\w-]+>/<action:[\w-]+>',
+//                'route' => '<controller>/<action>',
+//                'tokens' => ['{type}' => '<type:\\w+>']
+//                'defaults' => ['controller' => 'core/default', 'action' => 'index']
             ],
         ],
     ],
@@ -71,19 +87,14 @@ $config = [
 ];
 
 if (YII_ENV_DEV) {
-    // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
-        'class' => 'yii\debug\Module',
-        // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        'class' => 'yii\debug\Module'
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
-        'class' => 'yii\gii\Module',
-        // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        'class' => 'yii\gii\Module'
     ];
 }
 

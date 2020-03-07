@@ -1,6 +1,9 @@
 <?php
 
 use yii\db\Migration;
+use app\models\Unregistered;
+use app\models\User;
+use app\models\AccountType;
 
 /**
  * Class m200304_223723_migrate_data_from_old_database
@@ -25,7 +28,7 @@ class m200304_223723_migrate_data_from_old_database extends Migration
         // допустим, тип 1 - это стим, 2 - твич
         $newAccounts = array_map(
             function ($user) {
-                if(!is_null($user['twitch'])) { return array(2, $user['twitch'], $user['dc']); }
+                if(!is_null($user['twitch'])) { return array(2, $user['twitch'], $user['name']); }
                 else { return array(1, $user['steamId'], $user['dc']); } },
             $users);
         $newDb->createCommand()->batchInsert('account_type', ['type', 'account_id', 'username'], $newAccounts)->execute();
@@ -35,10 +38,16 @@ class m200304_223723_migrate_data_from_old_database extends Migration
                 if(!is_null($user['twitch'])) { return array(2, $user['twitch'], $user['dc']); }
                 else { return array(1, $user['steamId'], $user['dc']); } },
             $users);
-        $newDb->createCommand()->batchInsert('unregistered', ['type', 'account_id', 'dust_coin_num'], $newUnregistered)->execute();
+        $newDb->createCommand()->batchInsert('unregistered', ['type', 'account_id', 'dust_token_num'], $newUnregistered)->execute();
 
         // незареганные записи с нулем коинов не нужны - удаляем их
-        $newDb->createCommand()->delete('unregistered', ['dust_coin_num' => 0.000])->execute();
+        $emptyUnregistered = Unregistered::find()
+            ->select('account_id')
+            ->where(['dust_token_num' => 0.000])
+            ->asArray()->all();
+        AccountType::deleteAll(['in', 'account_id', array_values($emptyUnregistered)]);
+
+        $newDb->createCommand()->delete('unregistered', ['dust_token_num' => 0.000])->execute();
 
 //        $newUsersAccounts = array_map(
 //            function ($user) { return array($user['id'], 1, $user['steamId']); },

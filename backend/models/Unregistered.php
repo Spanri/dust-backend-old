@@ -10,7 +10,7 @@ use Yii;
  * @property string $id
  * @property int $type
  * @property string $account_id
- * @property float $dust_coin_num
+ * @property float $dust_token_num
  *
  * @property AccountType $type0
  */
@@ -34,7 +34,7 @@ class Unregistered extends \yii\db\ActiveRecord
             [['id'], 'string'],
             [['type'], 'default', 'value' => null],
             [['type'], 'integer'],
-            [['dust_coin_num'], 'number'],
+            [['dust_token_num'], 'number'],
             [['account_id'], 'string', 'max' => 32],
             [['id'], 'unique'],
             [['type', 'account_id'], 'exist', 'skipOnError' => true, 'targetClass' => AccountType::className(), 'targetAttribute' => ['type' => 'type', 'account_id' => 'account_id']],
@@ -50,7 +50,7 @@ class Unregistered extends \yii\db\ActiveRecord
             'id' => 'ID',
             'type' => 'Type',
             'account_id' => 'Account ID',
-            'dust_coin_num' => 'Dust Coin Num',
+            'dust_token_num' => 'Dust Coin Num',
         ];
     }
 
