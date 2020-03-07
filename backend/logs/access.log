@@ -1462,3 +1462,8 @@
 127.0.0.1 - - [08/Mar/2020:02:11:56 +0300] "GET /bot/arra-bot/type/2/account_id/redf9008/coins HTTP/1.1" 200 528 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:73.0) Gecko/20100101 Firefox/73.0"
 127.0.0.1 - - [08/Mar/2020:02:11:59 +0300] "GET /bot/arra-bot/type/2/account_id/redf900800/coins HTTP/1.1" 200 529 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:73.0) Gecko/20100101 Firefox/73.0"
 127.0.0.1 - - [08/Mar/2020:02:12:04 +0300] "GET /bot/arra-bot/coins HTTP/1.1" 200 27538 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:73.0) Gecko/20100101 Firefox/73.0"
+127.0.0.1 - - [08/Mar/2020:02:14:04 +0300] "GET /bot/arra-bot/type/2/account_id/redf9008/coins HTTP/1.1" 200 528 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:73.0) Gecko/20100101 Firefox/73.0"
+127.0.0.1 - - [08/Mar/2020:02:16:04 +0300] "GET /bot/arra-bot/type/2/account_id/redf9008/coins HTTP/1.1" 200 528 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:73.0) Gecko/20100101 Firefox/73.0"
+127.0.0.1 - - [08/Mar/2020:02:20:27 +0300] "PUT /bot/arra-bot/type/2/account_id/redfox___708079909/coins HTTP/1.1" 200 532 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:73.0) Gecko/20100101 Firefox/73.0"
+127.0.0.1 - - [08/Mar/2020:02:21:01 +0300] "PUT /bot/arra-bot/type/2/account_id/redfox___708079909/coins HTTP/1.1" 500 914 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:73.0) Gecko/20100101 Firefox/73.0"
+127.0.0.1 - - [08/Mar/2020:02:21:03 +0300] "PUT /bot/arra-bot/type/2/account_id/redfox___708079909/coins HTTP/1.1" 200 533 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:73.0) Gecko/20100101 Firefox/73.0"

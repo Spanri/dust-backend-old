@@ -146,7 +146,7 @@ class ArraBotController extends \yii\web\Controller
                 Yii::$app->db->createCommand()
                     ->batchInsert('transaction',
                         ['unregistered_user_id', 'type', 'status', 'currency_num', 'created_at'],
-                        [[$unregistered_user->id, 0, $operation, $coins, time()]])
+                        [[$unregistered_user->id, $type, $operation, $coins, time()]])
                     ->execute();
 
                 return $unregistered_user;
@@ -170,7 +170,7 @@ class ArraBotController extends \yii\web\Controller
                 Yii::$app->db->createCommand()
                     ->batchInsert('transaction',
                         ['registered_user_id', 'type', 'status', 'currency_num', 'created_at'],
-                        [[$registered_user->id, 0, $operation, $coins, time()]])
+                        [[$registered_user->id, $type, $operation + 10, $coins, time()]])
                     ->execute();
                 return $registered_user;
             }
