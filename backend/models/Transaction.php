@@ -8,13 +8,15 @@ use Yii;
  * This is the model class for table "transaction".
  *
  * @property string $id
- * @property string $user_id
+ * @property string|null $registered_user_id
+ * @property string|null $unregistered_user_id
  * @property int $type
  * @property int $status
  * @property int|null $currency_num
  * @property int|null $created_at
  *
- * @property User $user
+ * @property Unregistered $unregisteredUser
+ * @property User $registeredUser
  */
 class Transaction extends \yii\db\ActiveRecord
 {
@@ -32,12 +34,13 @@ class Transaction extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'user_id', 'type', 'status'], 'required'],
-            [['id', 'user_id'], 'string'],
+            [['id', 'type', 'status'], 'required'],
+            [['id', 'registered_user_id', 'unregistered_user_id'], 'string'],
             [['type', 'status', 'currency_num', 'created_at'], 'default', 'value' => null],
             [['type', 'status', 'currency_num', 'created_at'], 'integer'],
             [['id'], 'unique'],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['unregistered_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Unregistered::className(), 'targetAttribute' => ['unregistered_user_id' => 'id']],
+            [['registered_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['registered_user_id' => 'id']],
         ];
     }
 
@@ -48,7 +51,8 @@ class Transaction extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'User ID',
+            'registered_user_id' => 'Registered User ID',
+            'unregistered_user_id' => 'Unregistered User ID',
             'type' => 'Type',
             'status' => 'Status',
             'currency_num' => 'Currency Num',
@@ -57,12 +61,22 @@ class Transaction extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[User]].
+     * Gets query for [[UnregisteredUser]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
+    public function getUnregisteredUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(Unregistered::className(), ['id' => 'unregistered_user_id']);
+    }
+
+    /**
+     * Gets query for [[RegisteredUser]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRegisteredUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'registered_user_id']);
     }
 }
