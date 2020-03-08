@@ -26,6 +26,8 @@ class Module extends \yii\base\Module implements BootstrapInterface
             'GET bot/arra-bot/type/<type:\d+>/account_id/<account_id:\w+>/coins' => 'bot/arra-bot/coins-index',
             // настроить коины конкретного пользователя
             'PUT bot/arra-bot/type/<type:\d+>/account_id/<account_id:\w+>/coins' => 'bot/arra-bot/coins-update',
+            // настроить коины нескольких пользователей
+            'PUT bot/arra-bot/type/<type:\d+>/coins' => 'bot/arra-bot/coins-update',
         ], false);
     }
 }
